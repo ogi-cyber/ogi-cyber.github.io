@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Two-Site Enterprise Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="top"><div class="wrap">
+  <a class="brand" href="index.html#top">Ognjen Bobic Professional Portfolio</a>
+  <ul>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</div></nav>
+<main class="wrap">
+  <header class="page-head">
+    <a class="back" href="index.html#projects">← All projects</a>
+    <p class="label">Cisco Packet Tracer</p>
+    <h1>Two-site enterprise network</h1>
+  </header>
+
+  <section class="project-body">
+
+    <div class="block intro">
+      <ul class="tags"><li>VLANs</li><li>802.1Q trunking</li><li>Router-on-a-stick</li><li>DHCP relay</li><li>OSPF</li><li>Extended ACLs</li><li>Guest isolation</li></ul>
+      <p>Designed and built a two-site hospital network in Cisco Packet Tracer: a main campus and a branch clinic carrying 5 subnets across 3 VLANs, one DHCP server serving staff at both sites over relay, OSPF failing over between redundant WAN links in about a second, and guests isolated behind an extended ACL that denies every internal subnet.</p>
+    </div>
+
+    <div class="stats">
+      <div><strong>2</strong><span>sites</span></div>
+      <div><strong>5</strong><span>VLAN subnets</span></div>
+      <div><strong>2</strong><span>WAN links, primary and backup</span></div>
+      <div><strong>~1 s</strong><span>failover to the backup link</span></div>
+    </div>
+
+    <figure class="shot">
+      <img src="img/enterprise-topology.png" alt="Packet Tracer topology: two 2911 routers joined by two WAN links, each connected to a 2960 switch; the left switch serves PC0 and PC1, the right switch serves PC2, PC3 and Server1" width="1102" height="750">
+      <figcaption>Branch on the left (Router0, Switch0), HQ on the right (Router1, Switch1 and the DHCP server). The two links between the routers are the WAN pair: primary on G0/1, backup on G0/2.</figcaption>
+    </figure>
+
+    <div class="block">
+      <h3>Addressing</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>VLAN</th><th>Name</th><th>HQ subnet</th><th>Branch subnet</th></tr></thead>
+        <tbody>
+          <tr><td class="mono-cell">10</td><td>Staff</td><td><code>10.1.10.0/24</code></td><td><code>10.2.10.0/24</code></td></tr>
+          <tr><td class="mono-cell">20</td><td>Guest</td><td><code>10.1.20.0/24</code></td><td><code>10.2.20.0/24</code></td></tr>
+          <tr><td class="mono-cell">30</td><td>Servers</td><td><code>10.1.30.0/24</code></td><td>None</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap">Each site runs a Cisco 2911 router and a 2960 switch. Servers are centralized at HQ, so the Branch has no Server VLAN. Every subnet's gateway is the <code>.1</code> address on its router subinterface.</p>
+    </div>
+
+    <div class="block">
+      <h3>VLANs and inter-VLAN routing</h3>
+      <p>Each switch puts its devices into separate VLANs, so every group gets its own broadcast domain, its own subnet and a clean boundary for security rules. VLANs can't reach each other without a Layer 3 device, so each switch connects to its router over a single 802.1Q trunk that carries every VLAN and tags each frame with its VLAN ID.</p>
+      <p>On the router that one port is split into subinterfaces, one per VLAN, and each subinterface is the default gateway for its VLAN. The router takes in tagged traffic, routes it to the right subnet and sends it back down the same trunk. That single link is the "stick."</p>
+      <figure class="shot lg">
+        <img src="img/ent-subinterfaces.png" alt="HQ router running-config: subinterfaces G0/0.10, .20 and .30 with dot1Q encapsulation and gateway addresses; G0/0.10 has ip helper-address 10.1.30.10 and G0/0.20 has ip access-group 120 in" loading="lazy" width="698" height="328">
+        <figcaption>The HQ router's subinterfaces: dot1Q tags and gateway addresses, DHCP relay on Staff, and the guest ACL on Guest.</figcaption>
+      </figure>
+    </div>
+
+    <div class="block">
+      <h3>Centralized DHCP with relay</h3>
+      <p>One server at <code>10.1.30.10</code> hands out staff addresses for both sites, so every pool is managed in one place. A new device asks for an address with a broadcast, and routers don't forward broadcasts, so each Staff subinterface carries <code>ip helper-address 10.1.30.10</code>. The router turns the broadcast into a unicast, forwards it to the server, and stamps it with its own interface IP (the giaddr) so the server knows which pool to answer from.</p>
+      <figure class="shot md">
+        <img src="img/ent-dhcp-client.png" alt="ipconfig /all on Branch PC0: IPv4 10.2.10.101, gateway 10.2.10.1, DHCP server and DNS server 10.1.30.10" loading="lazy" width="773" height="375">
+        <figcaption><code>ipconfig /all</code> on a Branch staff PC: its address came from the HQ server across the WAN, through the relay.</figcaption>
+      </figure>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>OSPF with redundant WAN links</h3>
+        <p>Both routers run OSPF and advertise their subnets to each other. OSPF picks paths by cost, so I left the primary link at its default and raised the cost on the backup to keep it idle until it's needed. The LAN subinterfaces are passive, so hellos only go out the WAN links.</p>
+        <p>To test failover I ran a continuous ping from a Branch PC to the HQ server and shut the primary link. OSPF moved the routes to the backup (metric 2 → 101) and one ping was lost, an outage of about a second. For a hospital that's the Availability leg of the CIA triad: the clinic stays connected when a link fails.</p>
+      </div>
+      <figure class="shot">
+        <img src="img/ent-failover-ping.png" alt="Continuous ping from PC0 to 10.1.30.10 with one Request timed out; 24 sent, 23 received" loading="lazy" width="582" height="742">
+        <figcaption>One lost ping out of 24 while the primary link went down.</figcaption>
+      </figure>
+    </div>
+
+    <div class="block">
+      <h3>Guest isolation</h3>
+      <p>Guests should only reach the internet, so they use no internal service at all. Each router is the DHCP server for its own Guest VLAN, handing out its own <code>.1</code> as the gateway and <code>1.1.1.1</code> as DNS. The Guest subinterface has no helper-address, so guest requests never reach the HQ server.</p>
+      <pre><code>ip dhcp pool GUEST_HQ
+ network 10.1.20.0 255.255.255.0
+ default-router 10.1.20.1
+ dns-server 1.1.1.1</code></pre>
+      <p>That only changes what guests are handed by default; the routes to every internal subnet still exist. Extended ACL 120, applied inbound on the Guest subinterface at both sites, is what actually enforces the boundary:</p>
+      <ol class="rules">
+        <li data-seq="10"><span class="verb permit">permit</span><span>DHCP to the guest's own gateway, so leases can renew.</span></li>
+        <li data-seq="20"><span class="verb deny">deny</span><span>Every <code>10.x</code> network: staff, servers and the other site's guests.</span></li>
+        <li data-seq="30"><span class="verb deny">deny</span><span><code>172.16.0.0/12</code>, the WAN links between the routers.</span></li>
+        <li data-seq="40"><span class="verb permit">permit</span><span>Everything else, which in a real network means the internet.</span></li>
+      </ol>
+      <p>In production this would usually sit behind a firewall or a separate guest SSID with a captive portal, but the principle is the same: guests only reach the internet.</p>
+      <figure class="shot sm">
+        <img src="img/ent-guest-pings.png" alt="PC3 pings 10.1.30.10, 10.1.10.100 and 10.2.20.100: all Destination host unreachable from 10.1.20.1" loading="lazy" width="582" height="746">
+        <figcaption>From a guest PC: the server, a staff PC and the other site's guest network are all rejected at the gateway.</figcaption>
+      </figure>
+    </div>
+
+  </section>
+</main>
+<footer><div class="wrap">Ognjen Bobic · Oakville, Ontario</div></footer>
+</body>
+</html>

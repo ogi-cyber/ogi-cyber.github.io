@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ognjen Bobic Portfolio</title>
+<meta name="description" content="Networking and security projects by Ognjen Bobic: a Raspberry Pi running DHCP, DNS and filtering for a 32-device network, and a two-site enterprise network built in Cisco Packet Tracer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="top"><div class="wrap">
+  <a class="brand" href="#top">Ognjen Bobic Professional Portfolio</a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<main class="wrap" id="top">
+
+  <header class="hero" id="about">
+    <h2 class="hero-title">About</h2>
+    <div class="hero-text">
+      <p class="label">Networking · Security · Cloud</p>
+      <p class="lede">I learn networking and security by running the infrastructure, not by reading about it.</p>
+      <p>I'm a third-year Computer Science student at the University of Guelph with an area of emphasis in cybersecurity. I hold the CompTIA Network+ and I'm working toward the Security+.</p>
+      <ul class="facts">
+        <li>BCH.CS, Cybersecurity</li>
+        <li>CompTIA Network+</li>
+        <li>Open to Summer 2027 internships</li>
+      </ul>
+    </div>
+  </header>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects">
+      <a class="pcard" href="pihole.html">
+        <div class="thumb"><svg viewBox="0 0 760 340" role="img" aria-label="A device asks the Pi, the Pi checks with Cloudflare through the router only if needed, then the device connects through the router">
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+            <marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker>
+            <marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--s2)"/></marker>
+            <marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ok)"/></marker>
+            <marker id="m4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--s4)"/></marker>
+          </defs>
+          <g fill="none" stroke-width="1.75">
+            <path d="M190 66H288" stroke="var(--s4)" marker-end="url(#m4)"/>
+            <path d="M470 66H578" stroke="var(--s4)" marker-end="url(#m4)"/>
+            <path d="M104 112V258H288" stroke="var(--accent)" marker-end="url(#m1)"/>
+            <path d="M288 244H118V114" stroke="var(--ok)" marker-end="url(#m3)"/>
+            <path d="M380 220V162" stroke="var(--s2)" marker-start="url(#m2)" marker-end="url(#m2)"/>
+            <path d="M470 134H578" stroke="var(--s2)" marker-start="url(#m2)" marker-end="url(#m2)"/>
+            <path d="M578 202H522V150H472" stroke="var(--accent)" stroke-dasharray="5 4" marker-end="url(#m1)"/>
+            <path d="M450 162V218" stroke="var(--accent)" stroke-dasharray="5 4" marker-end="url(#m1)"/>
+            <path d="M470 276H578" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          </g>
+          <g font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13">
+            <rect x="30" y="40" width="160" height="70" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="110" y="70" text-anchor="middle" font-weight="600" fill="var(--ink)">Home devices</text>
+            <text x="110" y="88" text-anchor="middle" font-size="11.5" fill="var(--muted)">phones, laptops, TV</text>
+
+            <rect x="290" y="40" width="180" height="120" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="380" y="96" text-anchor="middle" font-weight="600" fill="var(--ink)">Bell Giga Hub</text>
+            <text x="380" y="114" text-anchor="middle" font-size="11.5" fill="var(--muted)">gateway · Wi-Fi</text>
+
+            <rect x="580" y="40" width="150" height="52" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="655" y="62" text-anchor="middle" font-weight="600" fill="var(--ink)">Websites</text>
+            <text x="655" y="79" text-anchor="middle" font-size="11.5" fill="var(--muted)">pages, video, apps</text>
+
+            <rect x="580" y="108" width="150" height="52" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="655" y="130" text-anchor="middle" font-weight="600" fill="var(--ink)">Cloudflare 1.1.1.1</text>
+            <text x="655" y="147" text-anchor="middle" font-size="11.5" fill="var(--muted)">upstream DNS</text>
+
+            <rect x="580" y="176" width="150" height="52" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="655" y="198" text-anchor="middle" font-weight="600" fill="var(--ink)">Phone + laptop, away</text>
+            <text x="655" y="215" text-anchor="middle" font-size="11.5" fill="var(--muted)">cellular, public Wi-Fi</text>
+
+            <rect x="290" y="222" width="180" height="96" rx="6" fill="var(--tint)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="380" y="248" text-anchor="middle" font-weight="600" fill="var(--ink)">Pi-hole on Pi 4</text>
+            <text x="380" y="268" text-anchor="middle" font-size="11.5" fill="var(--ink)">DHCP + DNS server</text>
+            <text x="380" y="285" text-anchor="middle" font-size="11.5" fill="var(--ink)">~2.6M blocklist entries</text>
+            <text x="380" y="302" text-anchor="middle" font-size="11.5" fill="var(--block)">blocked → 0.0.0.0</text>
+
+            <rect x="580" y="250" width="150" height="52" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="655" y="281" text-anchor="middle" font-weight="600" fill="var(--ink)">Query log</text>
+
+            <text x="239" y="58" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--s4)">④ traffic</text>
+            <text x="128" y="160" font-size="11.5" font-weight="600" fill="var(--accent)">① DNS query</text>
+            <text x="128" y="214" font-size="11.5" font-weight="600" fill="var(--ok)">③ answer:</text>
+            <text x="128" y="230" font-size="11.5" fill="var(--ok)">real IP or 0.0.0.0</text>
+            <text x="372" y="184" text-anchor="end" font-size="11.5" font-weight="600" fill="var(--s2)">② lookup + reply,</text>
+            <text x="372" y="199" text-anchor="end" font-size="11.5" fill="var(--s2)">if allowed, not cached</text>
+            <text x="550" y="195" font-size="11.5" fill="var(--accent)" text-anchor="middle">Tailscale</text>
+          </g>
+        </svg></div>
+        <div class="pbody">
+          <p class="label">Home lab · Raspberry Pi</p>
+          <h3>Network-wide DNS filtering and monitoring</h3>
+          <p>Took DHCP off the ISP router and put it on a Raspberry Pi, so any device that joins my home network has every domain it looks up checked against 2.6 million ad, tracker, malware and phishing domains by default. Anything on the list is answered with a dead address and never contacted, with nothing installed on the device itself. It handles about 76,000 lookups a day across 32 devices and blocks 23.8% of them. Tailscale carries the same filtering to my phone and laptop away from home.</p>
+          <ul class="tags"><li>Pi-hole</li><li>DHCP</li><li>DNS</li><li>Tailscale</li></ul>
+          <span class="go">Read the full write-up →</span>
+        </div>
+      </a>
+      <a class="pcard" href="enterprise.html">
+        <div class="thumb"><img src="img/enterprise-topology.png" alt="Cisco Packet Tracer topology with two routers, two switches, four PCs and a server" width="1102" height="750"></div>
+        <div class="pbody">
+          <p class="label">Cisco Packet Tracer</p>
+          <h3>Two-site enterprise network</h3>
+          <p>A hospital network across two sites: 5 subnets on 3 VLANs with router-on-a-stick inter-VLAN routing, one DHCP server serving both sites over relay, OSPF failing over between redundant WAN links in about a second, and guests isolated behind an ACL that denies every internal subnet.</p>
+          <ul class="tags"><li>VLANs</li><li>802.1Q</li><li>OSPF</li><li>DHCP relay</li><li>ACLs</li></ul>
+          <span class="go">Read the full write-up →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div><h3>Networking</h3><ul class="chips"><li>TCP/IP</li><li>DNS</li><li>DHCP</li><li>DHCP relay</li><li>Subnetting</li><li>VLANs</li><li>802.1Q trunking</li><li>Inter-VLAN routing</li><li>OSPF</li></ul></div>
+      <div><h3>Security</h3><ul class="chips"><li>ACLs</li><li>Network segmentation</li><li>DNS filtering</li><li>Threat-intel blocklists</li><li>VPNs</li><li>SSH</li></ul></div>
+      <div><h3>Tools</h3><ul class="chips"><li>Python</li><li>SQL</li><li>Wireshark</li><li>GitHub</li><li>Tailscale</li><li>Linux</li></ul></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <ul class="contact">
+      <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/ognjen-bobic-b04b88319/" target="_blank" rel="noopener">linkedin.com/in/ognjen-bobic</a></li>
+      <li><span class="k">Phone</span><span class="val">(647) 562-4071</span></li>
+      <li><span class="k">Email</span><span class="val">1bobicogn@gmail.com</span></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer><div class="wrap">Ognjen Bobic · Oakville, Ontario</div></footer>
+</body>
+</html>

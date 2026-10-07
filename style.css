@@ -1,0 +1,203 @@
+/* Layout: one centred page (1040px). Running text sits in a 660px column; figures, tables and diagrams break out to the full width. */
+:root{
+  /* colour */
+  --bg:#EDF1EF; --surface:#F7FAF8; --ink:#13201D; --muted:#5A6A64;
+  --line:#CBD5D0; --hair:#E0E7E3;
+  --accent:#1D5E87; --block:#B9512A; --ok:#2C7651; --tint:#E2E9E6;
+  --s2:#A8670F; --s4:#7150B8;
+  /* type */
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* metrics */
+  --page:1040px; --read:660px; --r:10px;
+  --gap-section:56px; --gap-block:16px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1513; --surface:#151F1C; --ink:#E2EBE7; --muted:#95A59F;
+  --line:#2C3A34; --hair:#222E29;
+  --accent:#7DB7DD; --block:#E78B60; --ok:#6CC395; --tint:#1A2623;
+  --s2:#E2B04E; --s4:#B49CF0; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0E1513; --surface:#151F1C; --ink:#E2EBE7; --muted:#95A59F;
+  --line:#2C3A34; --hair:#222E29;
+  --accent:#7DB7DD; --block:#E78B60; --ok:#6CC395; --tint:#1A2623;
+  --s2:#E2B04E; --s4:#B49CF0; color-scheme:dark }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--body); font-size:16.5px; line-height:1.62;
+  padding-inline:20px;
+}
+img{max-width:100%}
+[hidden]{display:none!important}
+a{color:var(--accent); text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
+code{font-family:var(--mono); font-size:.86em; background:var(--tint); padding:1px 5px; border-radius:3px}
+p{margin:0}
+h1,h2,h3{text-wrap:balance; margin:0}
+.wrap{max-width:var(--page); margin-inline:auto}
+.read{max-width:var(--read)}
+
+/* ---------- nav ---------- */
+nav.top{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); border-bottom:1px solid var(--hair)}
+nav.top .wrap{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding-block:15px}
+.brand{font-family:var(--display); font-weight:700; font-stretch:112%; font-size:1rem; text-decoration:none; color:var(--ink)}
+nav.top ul{display:flex; flex-wrap:wrap; gap:24px; list-style:none; margin:0; padding:0; font-size:.9rem}
+nav.top ul a{color:var(--muted); text-decoration:none}
+nav.top ul a:hover{color:var(--ink)}
+
+/* ---------- shared bits ---------- */
+.label{font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0}
+
+/* one chip style everywhere: tags, facts, skills */
+.chips,.tags,.facts{display:flex; flex-wrap:wrap; gap:7px; margin:0; padding:0; list-style:none}
+.chips li,.tags li,.facts li{
+  font-size:.8rem; line-height:1.5; color:var(--muted);
+  border:1px solid var(--hair); border-radius:999px; padding:3px 12px;
+}
+.facts li{font-size:.84rem; padding:5px 14px; color:var(--ink)}
+
+/* ---------- home: hero ---------- */
+.hero{display:flex; flex-direction:column; gap:28px; padding-block:76px 68px}
+.hero-title{font-family:var(--display); font-weight:700; font-stretch:110%; font-size:2rem; line-height:1.1}
+.hero-text{display:flex; flex-direction:column; align-items:flex-start; gap:20px}
+.lede{font-size:1.2rem; line-height:1.6}
+/* kept for re-use: hero photo, currently not in the markup */
+.hero-photo{margin:0; width:100%; display:flex; flex-direction:column; min-height:0}
+.hero-photo-frame{position:relative; flex:1; min-height:0}
+.hero-photo img{position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:50% 72%; border-radius:var(--r)}
+.hero-photo figcaption{font-size:.78rem; color:var(--muted); line-height:1.5; margin:0 0 16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+/* ---------- home: sections ---------- */
+section{padding-block:60px; border-top:1px solid var(--hair)}
+section > h2{font-family:var(--display); font-weight:700; font-stretch:110%; font-size:2rem; line-height:1.1; margin-bottom:28px}
+
+/* project cards */
+.projects{display:flex; flex-direction:column; gap:26px}
+.pcard{
+  display:flex; flex-direction:column; overflow:hidden; color:inherit; text-decoration:none;
+  border:1px solid var(--hair); border-radius:var(--r); background:var(--surface);
+  transition:border-color .15s, transform .15s;
+}
+.pcard:hover{border-color:var(--line); transform:translateY(-2px)}
+.pcard .thumb{height:380px; padding:20px; background:var(--tint); border-bottom:1px solid var(--hair); display:flex; align-items:center; justify-content:center; overflow:hidden}
+.pcard .thumb img{display:block; width:auto; height:auto; max-width:100%; max-height:100%}
+.pcard .thumb svg{display:block; width:100%; height:100%}
+.pcard .pbody{display:flex; flex-direction:column; gap:12px; padding:22px 24px 24px; flex:1}
+.pcard h3{font-family:var(--display); font-weight:700; font-stretch:106%; font-size:1.3rem; line-height:1.25}
+.pcard p{color:var(--muted); font-size:.95rem; max-width:64ch}
+.pcard .go{margin-top:auto; padding-top:4px; font-size:.92rem; font-weight:500; color:var(--accent)}
+.pcard:hover .go{text-decoration:underline; text-underline-offset:3px}
+
+/* skills */
+.skills{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px}
+.skills > div{display:flex; flex-direction:column; gap:12px}
+.skills h3{font-family:var(--body); font-size:.78rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+
+/* contact */
+.contact{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; margin:0; padding:0; list-style:none}
+.contact li{display:flex; flex-direction:column; gap:4px}
+.contact .k{font-family:var(--mono); font-size:.7rem; letter-spacing:.09em; text-transform:uppercase; color:var(--muted)}
+.contact a,.contact .val{font-size:.98rem; user-select:all; overflow-wrap:anywhere}
+.contact .val{font-variant-numeric:tabular-nums}
+
+footer{padding-block:30px 46px; border-top:1px solid var(--hair); color:var(--muted); font-size:.82rem}
+
+/* ---------- project pages ---------- */
+.page-head{display:flex; flex-direction:column; gap:14px; padding-block:46px 8px}
+.back{align-self:flex-start; font-size:.9rem; color:var(--muted); text-decoration:none; margin-bottom:14px}
+.back:hover{color:var(--ink)}
+.page-head h1{font-family:var(--display); font-weight:800; font-stretch:116%; font-size:clamp(2.1rem,5vw,3.1rem); line-height:1.04; letter-spacing:-.01em}
+
+/* the body is one flex column, so spacing never depends on margins */
+.project-body{display:flex; flex-direction:column; gap:var(--gap-section); padding-block:34px 72px; border-top:0}
+.block{display:flex; flex-direction:column; gap:var(--gap-block); align-items:flex-start}
+.block > p,.block > ol,.block > pre{width:100%}
+.block > h3{font-family:var(--display); font-weight:700; font-stretch:106%; font-size:1.4rem; line-height:1.2}
+.block > .tbl,.block > .diagram,.block > .pair,.block > .split{width:100%}
+
+/* intro block under the title */
+.intro{gap:18px}
+.intro p{font-size:1.06rem; color:var(--ink)}
+
+/* stats: hairlines instead of a box */
+.stats{
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:26px;
+  width:100%; padding-block:22px; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+}
+.stats div{display:flex; flex-direction:column; gap:2px}
+.stats strong{font-family:var(--display); font-stretch:114%; font-size:1.8rem; font-weight:700; font-variant-numeric:tabular-nums; line-height:1.1}
+.stats span{font-size:.82rem; color:var(--muted); line-height:1.4}
+
+/* figures */
+figure{margin:0}
+.shot{width:100%}
+.shot img{display:block; width:100%; height:auto; border-radius:var(--r); box-shadow:0 0 0 1px var(--hair), 0 1px 3px rgba(0,0,0,.05)}
+.shot.sm{max-width:420px}
+.shot.md{max-width:600px}
+.shot.lg{max-width:740px}
+figcaption{font-size:.84rem; color:var(--muted); line-height:1.5; margin-top:10px; max-width:var(--read)}
+.cap{font-size:.84rem; color:var(--muted); line-height:1.5; max-width:var(--read)}
+
+.diagram{overflow-x:auto; border-radius:var(--r); box-shadow:0 0 0 1px var(--hair); background:var(--surface); padding:16px}
+.diagram svg{display:block; min-width:640px; width:100%; height:auto}
+
+/* two-up rows */
+.split{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:40px; align-items:start}
+.split > div{display:flex; flex-direction:column; gap:var(--gap-block); align-items:flex-start}
+.pair{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:start}
+/* figure sized to sit level with the text column beside it, caption at body size */
+.split .shot.match{width:auto}
+.split .shot.match img{width:auto; height:auto; max-height:430px; max-width:100%}
+.split .shot.match figcaption{font-size:inherit; line-height:1.62; max-width:none}
+
+/* numbered steps */
+ol.steps{list-style:none; counter-reset:s; margin:0; padding:0; display:flex; flex-direction:column; gap:11px}
+ol.steps li{counter-increment:s; position:relative; padding-left:30px}
+ol.steps li::before{content:counter(s); position:absolute; left:0; top:0; font-family:var(--mono); font-size:.76rem; color:var(--accent); line-height:1.95}
+
+/* ACL rules: hairline rows, no box */
+ol.rules{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+ol.rules li{display:grid; grid-template-columns:26px 58px minmax(0,1fr); gap:14px; align-items:baseline; padding-block:11px; border-top:1px solid var(--hair)}
+ol.rules li:last-child{border-bottom:1px solid var(--hair)}
+ol.rules li::before{content:attr(data-seq); font-family:var(--mono); font-size:.76rem; color:var(--muted)}
+.verb{font-family:var(--mono); font-size:.74rem; font-weight:500; text-align:center; padding:2px 0; border-radius:4px}
+.verb.permit{color:var(--ok); background:color-mix(in srgb,var(--ok) 13%,transparent)}
+.verb.deny{color:var(--block); background:color-mix(in srgb,var(--block) 13%,transparent)}
+
+/* tables: row rules only */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:.9rem}
+th,td{text-align:left; padding:11px 18px 11px 0; vertical-align:top}
+th{font-family:var(--mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:500; border-bottom:1px solid var(--line); padding-bottom:9px}
+td{border-bottom:1px solid var(--hair)}
+tbody tr:last-child td{border-bottom:0}
+.n{text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap; padding-right:0}
+.mono-cell{font-family:var(--mono)}
+
+pre{margin:0; background:var(--surface); border-radius:var(--r); box-shadow:0 0 0 1px var(--hair); padding:15px 18px; overflow-x:auto; font-family:var(--mono); font-size:.83rem; line-height:1.6}
+pre code{background:none; padding:0; font-size:1em}
+.callout{border-left:2px solid var(--accent); padding:2px 0 2px 16px; color:var(--muted); max-width:var(--read)}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  :root{--gap-section:44px}
+  .hero{padding-block:46px 40px; gap:24px}
+  .skills,.contact{grid-template-columns:1fr}
+  .pcard .thumb{height:220px; padding:12px}
+  .split,.pair{grid-template-columns:1fr; gap:26px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px}
+  section{padding-block:48px}
+}
+@media (max-width:520px){
+  body{padding-inline:16px}
+  .stats{grid-template-columns:1fr; gap:18px}
+  ol.rules li{grid-template-columns:26px minmax(0,1fr); row-gap:4px}
+  ol.rules li .verb{grid-column:2; justify-self:start; padding-inline:9px}
+  ol.rules li span:last-child{grid-column:2}
+}

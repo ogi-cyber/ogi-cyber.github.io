@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DNS Filtering Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="top"><div class="wrap">
+  <a class="brand" href="index.html#top">Ognjen Bobic Professional Portfolio</a>
+  <ul>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</div></nav>
+<main class="wrap">
+  <header class="page-head">
+    <a class="back" href="index.html#projects">← All projects</a>
+    <p class="label">Home lab · Raspberry Pi</p>
+    <h1>Network-wide DNS filtering and monitoring</h1>
+  </header>
+  <section class="project-body">
+
+    <div class="block intro">
+      <ul class="tags"><li>Raspberry Pi</li><li>Pi-hole</li><li>DHCP</li><li>DNS</li><li>Tailscale</li><li>WireGuard</li></ul>
+      <p>Moved DHCP and DNS off the ISP router and onto a Raspberry Pi 4, so any device that joins my home network has every domain it looks up checked against 2.6 million ad, tracker, malware and phishing domains by default. Anything on the list is answered with a dead address, so the host behind it is never contacted, and nothing has to be installed on the device itself. It handles about 76,000 lookups a day across 32 devices and blocks 23.8% of them.</p>
+    </div>
+
+    <div class="stats">
+      <div><strong>32</strong><span>active clients</span></div>
+      <div><strong>76k</strong><span>queries in one day</span></div>
+      <div><strong>23.8%</strong><span>of queries blocked</span></div>
+      <div><strong>2.6M</strong><span>domains on blocklists</span></div>
+    </div>
+
+    <div class="block">
+      <h3>The problem</h3>
+      <p>Ad blockers are per-device and per-browser. Installing one on every phone, laptop and tablet in a house this size doesn't hold up, and the devices that most need filtering are the ones that can't take an extension at all, like the smart TV. An extension also only sees the browser, so a TV app reporting to a tracker is invisible to it.</p>
+      <p>DNS is the one chokepoint every device shares. Nothing reaches a server without resolving its name first, so filtering at that layer covers everything at once, including the devices I don't control, and it works the same whether the request comes from a browser, an app or firmware.</p>
+    </div>
+
+    <div class="block">
+      <h3>How it works</h3>
+      <div class="diagram">
+        <svg viewBox="0 0 760 340" role="img" aria-label="A device asks the Pi, the Pi checks with Cloudflare through the router only if needed, then the device connects through the router">
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+            <marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker>
+            <marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--s2)"/></marker>
+            <marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ok)"/></marker>
+            <marker id="m4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--s4)"/></marker>
+          </defs>
+          <g fill="none" stroke-width="1.75">
+            <path d="M190 66H288" stroke="var(--s4)" marker-end="url(#m4)"/>
+            <path d="M470 66H578" stroke="var(--s4)" marker-end="url(#m4)"/>
+            <path d="M104 112V258H288" stroke="var(--accent)" marker-end="url(#m1)"/>
+            <path d="M288 244H118V114" stroke="var(--ok)" marker-end="url(#m3)"/>
+            <path d="M380 220V162" stroke="var(--s2)" marker-start="url(#m2)" marker-end="url(#m2)"/>
+            <path d="M470 134H578" stroke="var(--s2)" marker-start="url(#m2)" marker-end="url(#m2)"/>
+            <path d="M578 202H522V150H472" stroke="var(--accent)" stroke-dasharray="5 4" marker-end="url(#m1)"/>
+            <path d="M450 162V218" stroke="var(--accent)" stroke-dasharray="5 4" marker-end="url(#m1)"/>
+            <path d="M470 276H578" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          </g>
+          <g font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13">
+            <rect x="30" y="40" width="160" height="70" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="110" y="70" text-anchor="middle" font-weight="600" fill="var(--ink)">Home devices</text>
+            <text x="110" y="88" text-anchor="middle" font-size="11.5" fill="var(--muted)">phones, laptops, TV</text>
+
+            <rect x="290" y="40" width="180" height="120" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="380" y="96" text-anchor="middle" font-weight="600" fill="var(--ink)">Bell Giga Hub</text>
+            <text x="380" y="114" text-anchor="middle" font-size="11.5" fill="var(--muted)">gateway · Wi-Fi</text>
+
+            <rect x="580" y="40" width="150" height="52" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="655" y="62" text-anchor="middle" font-weight="600" fill="var(--ink)">Websites</text>
+            <text x="655" y="79" text-anchor="middle" font-size="11.5" fill="var(--muted)">pages, video, apps</text>
+
+            <rect x="580" y="108" width="150" height="52" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="655" y="130" text-anchor="middle" font-weight="600" fill="var(--ink)">Cloudflare 1.1.1.1</text>
+            <text x="655" y="147" text-anchor="middle" font-size="11.5" fill="var(--muted)">upstream DNS</text>
+
+            <rect x="580" y="176" width="150" height="52" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="655" y="198" text-anchor="middle" font-weight="600" fill="var(--ink)">Phone + laptop, away</text>
+            <text x="655" y="215" text-anchor="middle" font-size="11.5" fill="var(--muted)">cellular, public Wi-Fi</text>
+
+            <rect x="290" y="222" width="180" height="96" rx="6" fill="var(--tint)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="380" y="248" text-anchor="middle" font-weight="600" fill="var(--ink)">Pi-hole on Pi 4</text>
+            <text x="380" y="268" text-anchor="middle" font-size="11.5" fill="var(--ink)">DHCP + DNS server</text>
+            <text x="380" y="285" text-anchor="middle" font-size="11.5" fill="var(--ink)">~2.6M blocklist entries</text>
+            <text x="380" y="302" text-anchor="middle" font-size="11.5" fill="var(--block)">blocked → 0.0.0.0</text>
+
+            <rect x="580" y="250" width="150" height="52" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+            <text x="655" y="281" text-anchor="middle" font-weight="600" fill="var(--ink)">Query log</text>
+
+            <text x="239" y="58" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--s4)">④ traffic</text>
+            <text x="128" y="160" font-size="11.5" font-weight="600" fill="var(--accent)">① DNS query</text>
+            <text x="128" y="214" font-size="11.5" font-weight="600" fill="var(--ok)">③ answer:</text>
+            <text x="128" y="230" font-size="11.5" fill="var(--ok)">real IP or 0.0.0.0</text>
+            <text x="372" y="184" text-anchor="end" font-size="11.5" font-weight="600" fill="var(--s2)">② lookup + reply,</text>
+            <text x="372" y="199" text-anchor="end" font-size="11.5" fill="var(--s2)">if allowed, not cached</text>
+            <text x="550" y="195" font-size="11.5" fill="var(--accent)" text-anchor="middle">Tailscale</text>
+          </g>
+        </svg>
+      </div>
+      <ol class="steps">
+        <li>A device joins the network and gets its address, gateway and DNS server from the Pi over DHCP.</li>
+        <li>When it needs a site, it asks the Pi for that domain's IP on port 53.</li>
+        <li>If the domain is on a blocklist, the Pi answers <code>0.0.0.0</code>, so the ad, tracker or malware host is never contacted.</li>
+        <li>If it's allowed, the Pi answers from its cache, or forwards the question to Cloudflare and caches the reply.</li>
+        <li>Every query is logged with the time, the device, the domain and the result.</li>
+      </ol>
+      <p>The cache is what keeps it quick: a domain the network has already asked for comes back in a millisecond or two without leaving the house, and only a first-time lookup costs a round trip. Only the lookup goes through the Pi. Once a device has the real IP it connects to the site directly through the router, so the Pi never sees the traffic itself.</p>
+    </div>
+
+    <div class="split">
+      <div>
+      <h3>Running DHCP on the Pi</h3>
+      <p>Filtering only reaches a device if that device is told to use the Pi for DNS, which is why the Pi hands out the addresses rather than the router. A DHCP server can't lease itself an address, and every client receives that same address as its DNS server, so the Pi is set statically at <code>192.168.2.145</code> with the router at <code>192.168.2.1</code> as the gateway. The lease pool starts above it, from <code>.150</code> to <code>.250</code>, so nothing it hands out can collide with it.</p>
+      <p>Switching over meant turning the router's own DHCP off first. Two DHCP servers on one subnet race each other and whichever replies first wins, so devices would have ended up with a mix of settings, some pointed at the Pi and some not. With only the Pi answering, every device that joins gets an address, the router as its gateway and the Pi as its DNS server, and anything that leaves and rejoins picks it up again on its next lease. Nothing is configured per device.</p>
+      </div>
+      <figure class="shot match">
+        <img src="img/hardware.jpg" alt="Raspberry Pi 4 in a black aluminum case, wired by ethernet to the home router" loading="lazy" width="1206" height="1608">
+        <figcaption>The Pi 4 sitting beside the gateway, wired in by ethernet rather than Wi-Fi. Every lookup on the network depends on it answering, so it stays on the wire.</figcaption>
+      </figure>
+    </div>
+
+    <div class="block">
+      <h3>Filtering away from home</h3>
+      <p>Tailscale, built on WireGuard, joins my phone, laptop and the Pi into one private network. With Override DNS turned on, both devices send every lookup through an encrypted tunnel to the Pi, so the same filtering applies on cellular and public Wi-Fi. The tunnel also carries SSH, which means no ports are opened on the router and the Pi is never exposed to the internet.</p>
+    </div>
+
+    <div class="block">
+      <h3>What it blocks</h3>
+      <p>Four lists do the work, weighted towards threat intelligence rather than ads alone. Pi-hole merges them, de-duplicates, and re-downloads them on a schedule so the feed stays current.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>List</th><th>Blocks</th><th class="n">Entries</th></tr></thead>
+        <tbody>
+          <tr><td>HaGeZi Threat Intelligence Feeds</td><td>Malware, phishing, scams, command-and-control</td><td class="n">2,371,600</td></tr>
+          <tr><td>StevenBlack Unified</td><td>Ads, trackers, malware</td><td class="n">82,600</td></tr>
+          <tr><td>HaGeZi Multi PRO++ mini</td><td>Ads, trackers, telemetry</td><td class="n">69,500</td></tr>
+          <tr><td>HaGeZi Pop-Up Ads</td><td>Pop-up and pop-under networks</td><td class="n">50,700</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap">Entry counts are the lists' own published sizes; Pi-hole reports 2,615,905 domains after merging.</p>
+      <figure class="shot">
+        <img src="img/dashboard.png" alt="Pi-hole dashboard: 76,139 queries in 24 hours, 18,126 blocked (23.8%), 2,615,905 domains on lists, 32 active clients" loading="lazy" width="2038" height="1320">
+        <figcaption>One day on the network: 76,139 queries from 32 clients, 18,126 of them blocked. Traffic climbs through the afternoon and peaks in the evening.</figcaption>
+      </figure>
+    </div>
+
+  </section>
+</main>
+<footer><div class="wrap">Ognjen Bobic · Oakville, Ontario</div></footer>
+</body>
+</html>
